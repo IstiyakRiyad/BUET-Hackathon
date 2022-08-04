@@ -96,7 +96,7 @@ router.get('/', async (req, res, next) => {
 
         const address = await getCityName(latitude, longitude);
         
-        const finalQuery = `${query ? query : ''} ${address.city ? address.city: ''} ${address.country ? address.country : ''}`;
+        const finalQuery = `${query ? query : ''} ${address.country ? address.country : ''}`;
 
         const news = await getNews(finalQuery, limit);
 

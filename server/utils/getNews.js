@@ -12,7 +12,7 @@ const newsSearch = async (query, pageSize, language) => {
         apiKey: NEWS_API_KEY,
         q: query,
         sortBy: 'relevancy',
-        language: language ? language : 'en',
+        // language: language ? language : 'en',
         pageSize
     });
 
