@@ -49,11 +49,13 @@ const router = require('express').Router();
 const emailAuth = require('./auth');
 const email = require('./email');
 const profile = require('./profile');
+const azure = require('./azure');
 
 
 router.use('/auth', emailAuth)
 router.use('/email', email);
 router.use('/profile', profile);
+router.use('/azure', azure);
 
 
 module.exports = router;
