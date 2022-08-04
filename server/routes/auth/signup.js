@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const createError = require('http-errors');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../../models/user');
 const Token = require('../../models/token');
 const signUp = require('../../validators/signup');
