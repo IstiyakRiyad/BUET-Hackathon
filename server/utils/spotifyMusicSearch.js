@@ -17,7 +17,6 @@ const spotifyMusicSearch = async (query, limit) => {
         limit: limit
     });
 
-    console.log(body.toString())
     const response = await axios.get(
         `${SPOTIFY_API_URL}/v1/search?${body.toString()}`,
         {
@@ -26,7 +25,7 @@ const spotifyMusicSearch = async (query, limit) => {
             }
         }
     );
-    const data = response.data.tracks.items.map(({name, preview_url, href, duration_ms}) => ({name, preview_url, href}));
+    const data = response.data.tracks.items.map(({name, preview_url, href, duration_ms, album}) => ({name, preview_url, href, duration_ms, image: album.images && album.images[0]}));
 
     return data;
 }

@@ -90,7 +90,7 @@ router.get('/', async (req, res, next) => {
     try {
         let {query, limit} = req.query;
 
-        if(limit < 1 ) limit = 10;
+        if(!limit || limit < 1 ) limit = 10;
 
         const tracks = await spotifyMusicSearch(query, limit);
 
