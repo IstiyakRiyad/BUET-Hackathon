@@ -22,9 +22,5 @@ const newsSearch = async (query, pageSize, language) => {
 }
 
 
-newsSearch('dhaka bangladesh', 5, )
-.then(data => console.log(data))
-.catch(error => console.log(error));
-
 
 module.exports = newsSearch;

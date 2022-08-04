@@ -2,7 +2,8 @@ const axios = require('axios');
 require('dotenv').config();
 
 const {
-    GOOGLE_LOCATION_API_KEY
+    GOOGLE_LOCATION_API_KEY,
+    GOOGLE_API_URL
 } = process.env;
 
 // https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
@@ -15,7 +16,7 @@ const newsSearch = async (lat, lng) => {
         latlng: `${lat},${lng}`
     });
 
-    const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?${body.toString()}`);
+    const response = await axios.get(`${GOOGLE_API_URL}/maps/api/geocode/json?${body.toString()}`);
 
     const address = response.data.results[0].formatted_address.split(', ');
 
@@ -26,7 +27,7 @@ const newsSearch = async (lat, lng) => {
 }
 
 
-newsSearch(-42.5626063,171.0296444)
+newsSearch(21.3222553, -157.9421873)
 .then(data => console.log(data))
 .catch(error => console.log(error));
 

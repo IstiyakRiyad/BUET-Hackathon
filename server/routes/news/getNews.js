@@ -9,7 +9,7 @@ const getNews = require('../../utils/getNews');
  * @swagger
  * /news/search:
  *  get:
- *      description: Get Search Music
+ *      description: Nearby News
  *      tags:
  *      - News
  * 
@@ -43,7 +43,7 @@ const getNews = require('../../utils/getNews');
  *                 
  *      responses:
  *          200:
- *              description: Spotify Music Tracks
+ *              description: Get Nearby News
  *              content:
  *                  application/json:
  *                      schema:
@@ -54,15 +54,11 @@ const getNews = require('../../utils/getNews');
  *                              data:
  *                                  type: object
  *                                  properties:
- *                                      tracks:
+ *                                      news:
  *                                          type: array
- *                                          items:
- *                                              name: string
- *                                              href: string
- *                                              preview_url: string
  *                      examples:
  *                          example:
- *                              value: {"message": "Spotify Music Tracks","data": {"tracks": [{"name": "Mera Mann Kehne Laga","preview_url": "https://p.scdn.co/mp3-preview/e9a4c2f7e3a5cee6984554421ded09e40992cdb2?cid=dc42e416670c40f29d92ba5af3856e70","href": "https://api.spotify.com/v1/tracks/1ai3itvPFcWilE9NX0JTCf"},{"name": "Mera Mann Kehne Laga","preview_url": "https://p.scdn.co/mp3-preview/e9a4c2f7e3a5cee6984554421ded09e40992cdb2?cid=dc42e416670c40f29d92ba5af3856e70","href": "https://api.spotify.com/v1/tracks/1niVgR76UPobOED5cXfADq"}]}}
+ *                              value: {"message": "News Data",  "data": {    "news": [      {        "source": {          "id": null,          "name": "Boing Boing"        },        "author": "Andrew Yi",        "title": "David M. Bird breaths life into his Becorns",        "description": "Since 2008, David M. Bird has been crafting and refining his photography series \"Becorns\", which zooms into the small world of acorn people interacting with nature.\n\n\n\n\n \r\nView this post on Instagram\r\nA post shared by Becorns (@davidmbird)\r\n\n\r\n\n\n\n\nInterleaved…",        "url": "https://boingboing.net/2022/07/31/david-m-bird-breaths-life-into-his-becorns.html",        "urlToImage": "https://i0.wp.com/boingboing.net/wp-content/uploads/2022/07/David-M.-Bird-Hummingbird.jpg?fit=1200%2C720&ssl=1",        "publishedAt": "2022-07-31T14:15:58Z",        "content": "Since 2008, David M. Bird has been crafting and refining his photography series \"Becorns\", which zooms into the small world of acorn people interacting with nature.\r\nInterleaved with David M. Bird's … [+2441 chars]"      }    ]  }}
  *          401:
  *              description: Authorization code required
  *              content:
@@ -101,7 +97,7 @@ router.get('/', async (req, res, next) => {
         const address = await getCityName(latitude, longitude);
         
         const finalQuery = `${query ? query : ''} ${address.city ? address.city: ''} ${address.country ? address.country : ''}`;
-        console.log(finalQuery);
+
         const news = await getNews(finalQuery, limit);
 
         res.json({
