@@ -1,6 +1,6 @@
 const axios = require('axios');
 const spotifyAccessToken = require('./spotifyAccessToken');
-require('dotenv').config();
+
 
 const {
     SPOTIFY_API_URL

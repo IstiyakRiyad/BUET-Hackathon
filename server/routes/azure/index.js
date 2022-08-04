@@ -7,7 +7,7 @@ const speechToken = require('./getSpeechToken');
  * @swagger
  * tags:
  *     name: Speech To Text
- *     description: Get 
+ *     description: Convert Speech to text
  */
 
 

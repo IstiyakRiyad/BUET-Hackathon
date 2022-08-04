@@ -5,11 +5,11 @@ const spotifyMusicSearch = require('../../utils/spotifyMusicSearch');
 
 /**
  * @swagger
- * /spotify/search:
+ * /news/search:
  *  get:
- *      description: Get Music Tracks
+ *      description: Get Search Music
  *      tags:
- *      - Spotify Music
+ *      - News
  * 
  *      parameters:
  *      -   name: query

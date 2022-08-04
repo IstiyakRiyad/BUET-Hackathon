@@ -7,7 +7,7 @@ const speechToken = require('./searchMusic');
  * @swagger
  * tags:
  *     name: Spotify Music
- *     description: Get 
+ *     description: Get Spotify Music
  */
 
 

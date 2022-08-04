@@ -51,6 +51,7 @@ const email = require('./email');
 const profile = require('./profile');
 const azure = require('./azure');
 const spotify = require('./spotify');
+const news = require('./news');
 
 
 
@@ -58,7 +59,8 @@ router.use('/auth', emailAuth)
 router.use('/email', email);
 router.use('/profile', profile);
 router.use('/azure', azure);
-router.use('/spotify', spotify)
+router.use('/spotify', spotify);
+router.use('/news', news);
 
 
 module.exports = router;
