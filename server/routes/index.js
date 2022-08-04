@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const checkAuth = require('./authorization/checkAuth')
 
 /**
  * @swagger
@@ -52,6 +52,7 @@ const profile = require('./profile');
 const azure = require('./azure');
 const spotify = require('./spotify');
 const news = require('./news');
+const note = require('./note');
 
 
 
@@ -61,6 +62,7 @@ router.use('/profile', profile);
 router.use('/azure', azure);
 router.use('/spotify', spotify);
 router.use('/news', news);
+router.use('/note', checkAuth(), note);
 
 
 module.exports = router;

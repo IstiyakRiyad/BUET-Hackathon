@@ -6,8 +6,6 @@ const {
     GOOGLE_API_URL
 } = process.env;
 
-// https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
-
 
 const newsSearch = async (lat, lng) => {
 
@@ -25,11 +23,6 @@ const newsSearch = async (lat, lng) => {
         city: address[address.length - 2]
     }
 }
-
-
-newsSearch(21.3222553, -157.9421873)
-.then(data => console.log(data))
-.catch(error => console.log(error));
 
 
 module.exports = newsSearch;
