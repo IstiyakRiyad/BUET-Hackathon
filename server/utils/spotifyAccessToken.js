@@ -1,5 +1,4 @@
 const axios = require('axios');
-require('dotenv').config();
 
 const {
     SPOTIFY_CLIENT_ID,
@@ -28,8 +27,5 @@ const spotifyAccessToken = async () => {
     return response.data;
 }
 
-spotifyAccessToken()
-.then(data => console.log(data))
-.catch(error => console.log(error));
 
 module.exports = spotifyAccessToken;

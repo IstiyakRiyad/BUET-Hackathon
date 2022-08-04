@@ -50,12 +50,15 @@ const emailAuth = require('./auth');
 const email = require('./email');
 const profile = require('./profile');
 const azure = require('./azure');
+const spotify = require('./spotify');
+
 
 
 router.use('/auth', emailAuth)
 router.use('/email', email);
 router.use('/profile', profile);
 router.use('/azure', azure);
+router.use('/spotify', spotify)
 
 
 module.exports = router;

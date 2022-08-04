@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const { default: axios } = require('axios');
-const fetch = require('node-fetch');
+const spotifyMusicSearch = require('../../utils/spotifyMusicSearch');
 
 
 const {
@@ -13,11 +12,24 @@ const {
 
 /**
  * @swagger
- * /azure/speechToken:
+ * /spotify/search:
  *  get:
- *      description: Get Token for azure service
+ *      description: Get Music Tracks
  *      tags:
- *      - Speech To Text
+ *      - Spotify Music
+ * 
+ *      parameters:
+ *      -   name: query
+ *          in: query
+ *          required: true
+ *          description: Search text
+ *          schema:
+ *              type: string
+ *      -   name: limit
+ *          in: query
+ *          description: Number of Songs
+ *          schema:
+ *              type: number
  * 
  *      security:
  *          - bearerAuth: []
@@ -25,7 +37,7 @@ const {
  *                 
  *      responses:
  *          200:
- *              description: Azure Authorization Token
+ *              description: Spotify Music Tracks
  *              content:
  *                  application/json:
  *                      schema:
@@ -36,14 +48,15 @@ const {
  *                              data:
  *                                  type: object
  *                                  properties:
- *                                      token:
- *                                          type: jwt
- *                                      region:
- *                                          type: string
+ *                                      tracks:
+ *                                          type: array
+ *                                          items:
+ *                                              name: string
+ *                                              href: string
+ *                                              preview_url: string
  *                      examples:
  *                          example:
- *                              value: { "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJyZWdpb24iOiJlYXN0dXMiLCJzdWJzY3JpcHRpb24taWQiOiI1NGRjMjQ4MWFlNDI0MGI3ODkyMzJiMTM2YmZhMjg1MCIsInByb2R1Y3QtaWQiOiJTcGVlY2hTZXJ2aWNlcy5GMCIsImNvZ25pdGl2ZS1zZXJ2aWNlcy1lbmRwb2ludCI6Imh0dHBzOi8vYXBpLmNvZ25pdGl2ZS5taWNyb3NvZnQuY29tL2ludGVybmFsL3YxLjAvIiwiYXp1cmUtcmVzb3VyY2UtaWQiOiIvc3Vic2NyaXB0aW9ucy9kOGYyMjIwZS01MjYwLTRlZWQtODgwMy04ZWFkYjI5NWE2YjgvcmVzb3VyY2VHcm91cHMvZ3JvdXBfY29nbml0aXZlX3NlcnZpY2UvcHJvdmlkZXJzL01pY3Jvc29mdC5Db2duaXRpdmVTZXJ2aWNlcy9hY2NvdW50cy9zcGVlY2hTZXJ2aWNlQ29nbml0aXZlIiwic2NvcGUiOiJzcGVlY2hzZXJ2aWNlcyIsImF1ZCI6InVybjptcy5zcGVlY2hzZXJ2aWNlcy5lYXN0dXMiLCJleHAiOjE2NTk2MTEwOTYsImlzcyI6InVybjptcy5jb2duaXRpdmVzZXJ2aWNlcyJ9.AOEkXEj6wl4OaERazeOLdEqUafQKVKfzujwdTmsdnEU", "region": "eastus"}
- *          
+ *                              value: {"message": "Spotify Music Tracks","data": {"tracks": [{"name": "Mera Mann Kehne Laga","preview_url": "https://p.scdn.co/mp3-preview/e9a4c2f7e3a5cee6984554421ded09e40992cdb2?cid=dc42e416670c40f29d92ba5af3856e70","href": "https://api.spotify.com/v1/tracks/1ai3itvPFcWilE9NX0JTCf"},{"name": "Mera Mann Kehne Laga","preview_url": "https://p.scdn.co/mp3-preview/e9a4c2f7e3a5cee6984554421ded09e40992cdb2?cid=dc42e416670c40f29d92ba5af3856e70","href": "https://api.spotify.com/v1/tracks/1niVgR76UPobOED5cXfADq"}]}}
  *          401:
  *              description: Authorization code required
  *              content:
@@ -75,22 +88,16 @@ const {
 
 router.get('/', async (req, res, next) => {
     try {
-        const response = await axios.post(
-            `https://${AZURE_SPEECH_REGION}.api.cognitive.microsoft.com/sts/v1.0/issueToken`,
-            null,
-            {
-                headers: {
-                    'Ocp-Apim-Subscription-Key': AZURE_SPEECH_KEY,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
-        );
+        let {query, limit} = req.query;
+
+        if(limit < 1 ) limit = 10;
+
+        const tracks = await spotifyMusicSearch(query, limit);
 
         res.json({
-            message: 'Azure authorization token',
+            message: 'Spotify Music Tracks',
             data: {
-                token: response.data,
-                region: AZURE_SPEECH_REGION
+                tracks
             }
         });
     }
