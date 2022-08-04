@@ -12,6 +12,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 // Middlewares
 const middleware = require('./middleware');
 const routes = require('./routes');
+const publicAPIKeyRoute = require('./PublicRoute');
 
 // ENV 
 const {
@@ -89,7 +90,7 @@ const options = {
             }
         ]
     },
-    apis: ['./server/routes/**/*.js']
+    apis: ['./server/routes/**/*.js', './server/PublicRoute/**/*.js']
 }
 
 
@@ -98,8 +99,13 @@ const openapiSpecification = swaggerJsdoc(options);
 app.use('/api/docs-swagger', swaggerUI.serve, swaggerUI.setup(openapiSpecification));
 
 
+// External API Key Routes
+app.use('/api/v1/external', publicAPIKeyRoute);
+
 // Main Routes
 app.use(`/api/v1`, routes);
+
+
 
 
 // Not Found and Error handler

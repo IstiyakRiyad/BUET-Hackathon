@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const checkAuth = require('./authorization/checkAuth')
+const checkAuth = require('./authorization/checkAuth');
 
 /**
  * @swagger
@@ -53,7 +53,8 @@ const azure = require('./azure');
 const spotify = require('./spotify');
 const news = require('./news');
 const note = require('./note');
-
+const generateKey = require('./APIKey');
+const search = require('./Search');
 
 
 router.use('/auth', emailAuth)
@@ -62,6 +63,8 @@ router.use('/profile', profile);
 router.use('/azure', azure);
 router.use('/spotify', spotify);
 router.use('/news', news);
+router.use('/key', generateKey);
+router.use('/search', search);
 router.use('/note', checkAuth(), note);
 
 

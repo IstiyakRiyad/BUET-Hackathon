@@ -1,16 +1,18 @@
+const crypto = require('crypto');
+const createHttpError = require('http-errors');
 const router = require('express').Router();
 const Note = require('../../models/note');
-
+const Token = require('../../models/token');
 
 
 
 /**
  * @swagger
- * /note/:
- *  get:
- *      description: Get All Note
+ * /key/show:
+ *  post:
+ *      description: Get generated api key
  *      tags:
- *      - Note
+ *      - Key Generator
  * 
  *      security:
  *          - bearerAuth: []
@@ -18,7 +20,7 @@ const Note = require('../../models/note');
  *                 
  *      responses:
  *          200:
- *              description: Note Data
+ *              description: API key for other application
  *              content:
  *                  application/json:
  *                      schema:
@@ -28,9 +30,12 @@ const Note = require('../../models/note');
  *                                  type: string
  *                              data:
  *                                  type: object
+ *                                  properties:
+ *                                      token:
+ *                                          type: string
  *                      examples:
  *                          example:
- *                              value: {"message": "Note Data",  "data": {    "notes": [      {        "_id": "62ec2a1b2c490b799fb4a34f",        "data": "Note 1",        "createdAt": "2022-08-04T20:20:43.733Z",        "updatedAt": "2022-08-04T20:20:43.733Z"      }    ]  }}
+ *                              value: {    message: 'Generated Token',    data: {        token: "1659645990333f076b3885699768a2bceb9441e2468"    }}
  *          401:
  *              description: Authorization code required
  *              content:
@@ -43,6 +48,18 @@ const Note = require('../../models/note');
  *                      examples:
  *                          example:
  *                              value: {message: 'Authorization code required'}
+ *          404:
+ *              description: Key not found. Please create api key
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message: 
+ *                                  type: string
+ *                      examples:
+ *                          example:
+ *                              value: {message: 'Token not found. Please generate the key'}
  *          500:
  *              description: Internal Server Error
  *              content:
@@ -60,70 +77,18 @@ const Note = require('../../models/note');
 
 
 
-/**
- * @swagger
- * /external/note/:
- *  get:
- *      description: Get All Note
- *      tags:
- *      - External API Endpoint
- * 
- *      security:
- *          - API_Key: []
- * 
- *                 
- *      responses:
- *          200:
- *              description: Note Data
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message: 
- *                                  type: string
- *                              data:
- *                                  type: object
- *                      examples:
- *                          example:
- *                              value: {"message": "Note Data",  "data": {    "notes": [      {        "_id": "62ec2a1b2c490b799fb4a34f",        "data": "Note 1",        "createdAt": "2022-08-04T20:20:43.733Z",        "updatedAt": "2022-08-04T20:20:43.733Z"      }    ]  }}
- *          401:
- *              description: Authorization code required
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message: 
- *                                  type: string
- *                      examples:
- *                          example:
- *                              value: {message: 'Authorization code required'}
- *          500:
- *              description: Internal Server Error
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message: 
- *                                  type: string
- *                      examples:
- *                          example:
- *                              value: {message: 'Server Error'}
- * 
- */
-
-router.get('/', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const {userId} = req.user;
 
-        const notes = await Note.find({userId}, {__v: 0, userId: 0});
+        let token = await Token.findOne({userId, tokenType: 'apiKey'});
+console.log(token)        
+        if(!token) throw createHttpError(404, 'Token not found. Please generate the key');
 
         res.json({
-            message: 'Note Data',
+            message: 'API Token',
             data: {
-                notes
+                token: token.token
             }
         });
     }
