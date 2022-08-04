@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const spotifyMusicSearch = require('../../utils/spotifyMusicSearch');
+const getCityName = require('../../utils/getCityName');
+const getNews = require('../../utils/getNews');
+
 
 
 
@@ -12,15 +14,26 @@ const spotifyMusicSearch = require('../../utils/spotifyMusicSearch');
  *      - News
  * 
  *      parameters:
- *      -   name: query
+ *      -   name: latitude
  *          in: query
  *          required: true
+ *          description: Latitude
+ *          schema:
+ *              type: string
+ *      -   name: longitude
+ *          in: query
+ *          required: true
+ *          description: Longitude
+ *          schema:
+ *              type: string
+ *      -   name: query
+ *          in: query
  *          description: Search text
  *          schema:
  *              type: string
  *      -   name: limit
  *          in: query
- *          description: Number of Songs
+ *          description: Number of News
  *          schema:
  *              type: number
  * 
@@ -81,16 +94,20 @@ const spotifyMusicSearch = require('../../utils/spotifyMusicSearch');
 
 router.get('/', async (req, res, next) => {
     try {
-        let {query, limit} = req.query;
+        let {query, limit, latitude, longitude} = req.query;
 
         if(!limit || limit < 1 ) limit = 10;
 
-        const tracks = await spotifyMusicSearch(query, limit);
+        const address = await getCityName(latitude, longitude);
+        
+        const finalQuery = `${query ? query : ''} ${address.city ? address.city: ''} ${address.country ? address.country : ''}`;
+        console.log(finalQuery);
+        const news = await getNews(finalQuery, limit);
 
         res.json({
-            message: 'Spotify Music Tracks',
+            message: 'News Data',
             data: {
-                tracks
+                news
             }
         });
     }

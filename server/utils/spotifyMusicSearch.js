@@ -25,7 +25,7 @@ const spotifyMusicSearch = async (query, limit) => {
             }
         }
     );
-    const data = response.data.tracks.items.map(({name, preview_url, href, duration_ms, album}) => ({name, preview_url, href, duration_ms, image: album.images && album.images[0]}));
+    const data = response.data.tracks.items.map(({name, preview_url, external_urls, duration_ms, album}) => ({name, preview_url, href: external_urls.spotify, duration_ms, image: album.images && album.images[0]}));
 
     return data;
 }
