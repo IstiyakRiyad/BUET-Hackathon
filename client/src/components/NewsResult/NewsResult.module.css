@@ -1,0 +1,8 @@
+.img {
+  max-width: 400px;
+}
+
+.link:hover {
+  text-decoration: none !important;
+  color: var(--primary) !important;
+}

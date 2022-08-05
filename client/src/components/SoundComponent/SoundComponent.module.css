@@ -1,0 +1,46 @@
+.wrapper {
+  position: fixed;
+  bottom: 5vh;
+  right: 3vw;
+  display: flex;
+  align-items: center;
+}
+
+.icon_wrapper {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  height: 50px;
+  filter: invert(65%) sepia(95%) saturate(575%) hue-rotate(343deg)
+    brightness(103%) contrast(85%);
+  transition: 0.3s all ease-in-out;
+}
+.icon:hover {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(345deg)
+    brightness(102%) contrast(101%);
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+}
+
+.comment {
+  background-color: var(--primary-dark);
+  position: relative;
+  padding: 10px 20px;
+  color: white;
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - 20px) 0%,
+    100% 50%,
+    calc(100% - 20px) 100%,
+    0% 100%
+  );
+}

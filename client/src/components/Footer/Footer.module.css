@@ -1,0 +1,14 @@
+.logo {
+  height: 3rem;
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
+  transition: 0.3s all ease-in-out;
+}
+
+.link:hover {
+  color: var(--primary-dark);
+  transition: 0.3s all ease-in-out;
+}

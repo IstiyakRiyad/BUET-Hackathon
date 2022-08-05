@@ -1,0 +1,72 @@
+.crd_wrapper {
+  min-height: 100px;
+  background: var(--grad);
+  padding: 2px;
+  border-radius: 10px;
+}
+
+.crd {
+  height: 100%;
+  background: #fff;
+  border-radius: 9px;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  transition: 0.3s all ease-in-out;
+}
+
+.crd:hover {
+  background: var(--grad);
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s background ease-in-out;
+}
+
+.crd.active {
+  background: var(--grad);
+  color: #fff !important;
+  transition: 0.3s background ease-in-out;
+}
+
+.crd:hover .icon,
+.crd.active .icon {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(345deg)
+    brightness(102%) contrast(101%);
+}
+
+.icon {
+  height: 30px;
+  filter: invert(65%) sepia(95%) saturate(575%) hue-rotate(343deg)
+    brightness(103%) contrast(85%);
+}
+
+@media screen and (max-width: 768px) {
+  .crd_wrapper {
+    min-height: 30px;
+    background: var(--grad);
+    padding: 1px;
+    border-radius: 10px;
+  }
+
+  .crd {
+    height: 100%;
+    background: #fff;
+    border-radius: 9px;
+    min-height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 10px;
+    text-align: center;
+    align-items: center;
+    flex-direction: row;
+    transition: 0.3s all ease-in-out;
+  }
+
+  .icon {
+    height: 20px;
+    margin-right: 10px;
+  }
+}

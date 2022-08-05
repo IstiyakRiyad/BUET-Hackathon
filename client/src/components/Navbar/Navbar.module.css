@@ -1,0 +1,11 @@
+.navbar {
+  color: var(--dark) !important;
+}
+
+.logo {
+  height: 2rem;
+}
+
+.link:hover {
+  cursor: pointer;
+}
