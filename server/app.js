@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
+const rateLimit = require('express-rate-limit');
 
 
 // Middlewares
@@ -99,8 +100,16 @@ const openapiSpecification = swaggerJsdoc(options);
 app.use('/api/docs-swagger', swaggerUI.serve, swaggerUI.setup(openapiSpecification));
 
 
+// Rate limiter
+const apiLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // Limit each IP to 100 requests per `window`
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 // External API Key Routes
-app.use('/api/v1/external', publicAPIKeyRoute);
+app.use('/api/v1/external', apiLimiter, publicAPIKeyRoute);
 
 // Main Routes
 app.use(`/api/v1`, routes);
